@@ -1,9 +1,9 @@
 # RetroSignalModel.jl
 
-[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://stevengogogo.github.io/RetroSignalModel.jl/dev)
-[![Build Status](https://github.com/stevengogogo/RetroSignalModel.jl/workflows/CI/badge.svg)](https://github.com/stevengogogo/RetroSignalModel.jl/actions)
-[![Coverage](https://codecov.io/gh/stevengogogo/RetroSignalModel.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/stevengogogo/RetroSignalModel.jl)
-![GitHub repo size](https://img.shields.io/github/repo-size/stevengogogo/RetroSignalModel.jl)
+[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://ntumitolab.github.io/RetroSignalModel.jl/dev)
+[![Build Status](https://github.com/stevengogogo/RetroSignalModel.jl/workflows/CI/badge.svg)](https://github.com/ntumitolab/RetroSignalModel.jl/actions)
+[![Coverage](https://codecov.io/gh/stevengogogo/RetroSignalModel.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/ntumitolab/RetroSignalModel.jl)
+![GitHub repo size](https://img.shields.io/github/repo-size/ntumitolab/RetroSignalModel.jl)
 
 
 ![rtgM4 model](docs/src/img/RTG_scheme.png)
@@ -11,7 +11,7 @@
 
 ## Mitochondrial Retrograde Signalling
 
-Mitochondrial retrograde signaling reports mitochondrial status to the nucleus. However, there is a lack of understanding of how the nucleus capture mitochondrial status in dynamics and information processing. It is a complicated biochemical reaction that occurs in most eukaryotic organisms. In this repository, we focus on the RTG pathway in yeast. This pathway is the simplest retrograde signaling pathway that has been investigated thoroughly. Data are collected from [1] and [2] (See [src/data/](src/data/)). This repository aims to compose known protein interactions and nucleus relocation that fulfills all known responses of the yeast RTG pathway. Monte-Carlo approach is used to solve this Boolean satisfiability problem, and the parameter searching/ simulation/ threading is facilitated by DifferentialEquations.jl [3]. 
+Mitochondrial retrograde signaling reports mitochondrial status to the nucleus. However, there is a lack of understanding of how the nucleus capture mitochondrial status in dynamics and information processing. It is a complicated biochemical reaction that occurs in most eukaryotic organisms. In this repository, we focus on the RTG pathway in yeast. This pathway is the simplest retrograde signaling pathway that has been investigated thoroughly. Data are collected from [1] and [2] (See [src/data/](src/data/)). This repository aims to compose known protein interactions and nucleus relocation that fulfills all known responses of the yeast RTG pathway. Monte-Carlo approach is used to solve this Boolean satisfiability problem, and the parameter searching/ simulation/ threading is facilitated by DifferentialEquations.jl [3].
 
 ## Installation
 
@@ -28,13 +28,13 @@ Pkg.add(url="https://github.com/stevengogogo/RetroSignalModel.jl#master")
 
 https://stevengogogo.github.io/RetroSignalModel.jl/dev/
 
---- 
+---
 
-## Dataset 
+## Dataset
 
 > See folder [src/data](src/data)
 
-## Solutions of retrograde signaling model 
+## Solutions of retrograde signaling model
 
 > Data: [`solution_rtgM4.csv`](src/data/solution_rtgM4.csv)
 
@@ -59,7 +59,7 @@ This folder contains summarized responses of mitochondrial retrograde signaling 
 
 ### Definition of Response
 
-In [1] and [2], RTG response is observed via GFP tags on either RTG1 or RTG3. In wild-type, mitochondrial damage can cause these proteins to accumulate in the nucleus, resulting in the intensified brightness of the nucleus region observed by fluorescent microscopy. As shown in [boolean_table_RTG13.csv](src/data/boolean_table_RTG13.csv), the responses are categorized in binary results: whether GFP is accumulated in the nucleus in a given condition. Based on [1] and [2], there are 20 reactions listed in the table. 
+In [1] and [2], RTG response is observed via GFP tags on either RTG1 or RTG3. In wild-type, mitochondrial damage can cause these proteins to accumulate in the nucleus, resulting in the intensified brightness of the nucleus region observed by fluorescent microscopy. As shown in [boolean_table_RTG13.csv](src/data/boolean_table_RTG13.csv), the responses are categorized in binary results: whether GFP is accumulated in the nucleus in a given condition. Based on [1] and [2], there are 20 reactions listed in the table.
 
 For example, the following is one of the conditions mentioned in [1]:
 
@@ -99,7 +99,7 @@ There are 20 reactions summarized in the table. Some conditions are yet to be ex
 
 ---
 
-## Differential Gene Expression 
+## Differential Gene Expression
 
 > Data: [RNAseq_RTG_expression.csv](src/data/RNAseq_RTG_expression.csv)
 >
@@ -108,9 +108,9 @@ There are 20 reactions summarized in the table. Some conditions are yet to be ex
 ![D3e RTG expression level](src/data/RNAseq_RTG_expression/img/stressed_response_mean.png)
 > *This figure is produced by [RNAseq_RTG_expression/analysis_RNA-Seq.ipynb](src/data/RNAseq_RTG_expression/analysis_RNA-Seq.ipynb)*
 
-### Whole-genome RNA sequencing under normal and osmotic stress condition in yeast 
+### Whole-genome RNA sequencing under normal and osmotic stress condition in yeast
 
-Whole-genome RNA sequencing was performed under normal conditions and osmotic stress [4] (GEO database's access number: GSE102475). This paper is selected because all RTG-related gene expressions are covered in this research, and this paper also provides stress condition that is informative to investigate the range of expressions of RTG elements. 
+Whole-genome RNA sequencing was performed under normal conditions and osmotic stress [4] (GEO database's access number: GSE102475). This paper is selected because all RTG-related gene expressions are covered in this research, and this paper also provides stress condition that is informative to investigate the range of expressions of RTG elements.
 
 The original data is downloaded and stored at <a href="RNAseq_RTG_expression/data/Single Cell RNAseq_yeast_GSE102475.xlsx">Single Cell RNAseq_yeast_GSE102475.xlsx</a> [4].
 
