@@ -43,6 +43,10 @@ jobs:
         with:
           version: "1"
       - run: |
+          git config --global user.name sosiristseng
+          git config --global user.email sosiristseng@gmail.com
+          git config --global github.user sosiristseng
+      - run: |
           julia --project=docs -e '
             using Pkg
             Pkg.develop(PackageSpec(path=pwd()))
