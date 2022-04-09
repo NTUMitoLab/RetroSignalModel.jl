@@ -12,8 +12,6 @@ rtg3_cytosol(sol) = rtg13_cytosol(sol) + sol[Rtg3A_c] + sol[Rtg3I_c]
 rtg1_nucleus(sol) = rtg13_nucleus(sol) + sol[Rtg1_n]
 rtg1_cytosol(sol) = rtg13_cytosol(sol) + sol[Rtg1_c]
 
-Rodas5
-
 """
 Scan for parameters that meet the boolean conditions in the retrograde (RTG) signalling model.
 """
