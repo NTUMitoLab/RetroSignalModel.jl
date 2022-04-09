@@ -19,5 +19,6 @@ makedocs(;
 
 deploydocs(;
     branch="gh-pages",
+    devbranch="main",
     repo="github.com/ntumitolab/RetroSignalModel.jl.git"
 )
