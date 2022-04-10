@@ -39,7 +39,7 @@ function scan_params(
     idxnRuns = param2idx[nRuns]
     idxnS = param2idx[n_S]
 
-    prob = SteadyStateProblem(sys, resting_u0(sys); jac=true, sparse=true)
+    prob = SteadyStateProblem(sys, resting_u0(sys))
 
     # Initalize parameters for the first batch
     batchParams = zeros(batch_size, length(parameters(sys)))
