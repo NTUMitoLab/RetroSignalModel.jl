@@ -1,5 +1,13 @@
-const nRuns = 10
+# Test scan_params
 
-sim = scan_params(; trajectories=nRuns, saveall=true)
+const nruns = 10
 
-@test length(sim) == nRuns
+sim = scan_params(; trajectories=10, saveall=true)
+
+@test length(sim) == nruns
+
+# Test optim_params
+using Optim
+res = optim_params(; optimoptions=Optim.Options(iterations=nruns, show_trace=true))
+
+@test iterations(nruns) == nruns
