@@ -46,7 +46,8 @@ rtgMTK(S = DEFAULT_SIGNAL; name, proteinlevels=STRESSED)
 
 Make a RTG signalling ModelingToolkit (mtk) system with a time-dependent damage signal function `S` and `proteinlevels` for Rtg1, Rtg2, Rtg3, Bmh, and Mks proteins.
 """
-function RtgMTK(S=ZERO_SIGNAL; name, proteinlevels=STRESSED, simplify=true)
+function RtgMTK(S=ZERO_SIGNAL; name,
+    proteinlevels=STRESSED, simplify=true, recordNruns=false)
 
     D = Differential(t)
 
@@ -116,8 +117,11 @@ function RtgMTK(S=ZERO_SIGNAL; name, proteinlevels=STRESSED, simplify=true)
         ΣRtg3 ~ Rtg13A_c + Rtg13I_c + Rtg13A_n + Rtg13I_n + Rtg3I_c + Rtg3A_c + Rtg3A_n + Rtg3I_n,
         ΣMks ~ Mks + Rtg2Mks_c + BmhMks,
         ΣBmh ~ Bmh + BmhMks,
-        nRuns ~ nRuns
     ]
+
+    if recordNruns
+        eqs = push!(eqs, nRuns ~ nRuns)
+    end
 
     sys = ODESystem(eqs, t; name, defaults=proteinlevels)
 
