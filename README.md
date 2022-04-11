@@ -21,12 +21,12 @@ Use the following script to install this package in Julia REPL.
 
 ```julia
 using Pkg
-Pkg.add(url="https://github.com/stevengogogo/RetroSignalModel.jl#master")
+Pkg.add(PackageSpec(url="https://github.com/ntumitolab/RetroSignalModel.jl"))
 ```
 
 ## Implementation details
 
-https://stevengogogo.github.io/RetroSignalModel.jl/dev/
+https://ntumitolab.github.io/RetroSignalModel.jl/dev/
 
 ---
 
