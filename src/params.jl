@@ -33,7 +33,7 @@ function scan_params(
     # Boolean conditions for nuclear accumulation
     conds = load_conditions(datafile)
 
-    @named sys = Model(ONE_SIGNAL; proteinlevels, recordNRuns=true)
+    @named sys = Model(ONE_SIGNAL; proteinlevels, recordNruns=true)
 
     param2idx = Dict(k => i for (i, k) in enumerate(parameters(sys)))
     idxnRuns = param2idx[nRuns]

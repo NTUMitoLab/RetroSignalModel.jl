@@ -120,7 +120,7 @@ function RtgMTK(S=ZERO_SIGNAL; name,
     ]
 
     if recordNruns
-        eqs = push!(eqs, [nRuns ~ nRuns])
+        eqs = push!(eqs, nRuns ~ nRuns)
     end
 
     sys = ODESystem(eqs, t; name, defaults=proteinlevels)
