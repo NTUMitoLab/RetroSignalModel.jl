@@ -137,7 +137,8 @@ function optim_params(
     hillupperbound=7.0,
     xinit=1.0,
     optimsolver=Optim.SAMIN(),
-    optimoptions=Optim.Options(iterations=10^6))
+    optimoptions=Optim.Options(iterations=10^5, show_trace=true, show_every=1000),
+    targetratio=10)
 
     # Boolean conditions
     conds = load_conditions(datafile)
@@ -156,6 +157,8 @@ function optim_params(
 
     xidx2params = [i for (k, i) in param2idx if !any(isequal(k), (ΣRtg1, ΣRtg2, ΣRtg3, ΣMks, mul_S))]
     xidxnS = findfirst(isequal(idxnS), xidx2params)
+
+    scorecap = -log10(targetratio)
 
     # Cost function
     function cost(x)
@@ -186,6 +189,7 @@ function optim_params(
             else
                 score = 0.0
             end
+            score = max(score, scorecap)
             count += score
         end
 
