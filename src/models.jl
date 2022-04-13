@@ -132,6 +132,6 @@ function RtgMTK(S=ZERO_SIGNAL; name,
 end
 
 """
-Resting initial conditions: all zeroes for all active components.
+Resting initial conditions default to all zeros.
 """
-resting_u0(sys) = zeros(length(states(sys)))
+resting_u0(sys; val=0.0) = Dict(states(sys) .=> val)
