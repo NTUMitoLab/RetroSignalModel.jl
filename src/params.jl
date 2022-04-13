@@ -5,14 +5,6 @@ using OrdinaryDiffEq
 using ModelingToolkit
 using Optim
 
-# Distributions of RTG1 and RTG3 proteins
-rtg13_nucleus(sol) = sol[Rtg13I_n] + sol[Rtg13A_n]
-rtg13_cytosol(sol) = sol[Rtg13I_c] + sol[Rtg13A_c]
-rtg3_nucleus(sol) = rtg13_nucleus(sol) + sol[Rtg3A_n] + sol[Rtg3I_n]
-rtg3_cytosol(sol) = rtg13_cytosol(sol) + sol[Rtg3A_c] + sol[Rtg3I_c]
-rtg1_nucleus(sol) = rtg13_nucleus(sol) + sol[Rtg1_n]
-rtg1_cytosol(sol) = rtg13_cytosol(sol) + sol[Rtg1_c]
-
 """
 Randomly scan for parameters that satisfy the boolean conditions in the retrograde (RTG) signalling model.
 """

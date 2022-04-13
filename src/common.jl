@@ -26,3 +26,12 @@ load_conditions(filename=joinpath(@__DIR__, "data", "boolean_table_RTG13.csv")) 
 
 """Load model parameters"""
 load_parameters(filename=joinpath(@__DIR__, "data", "solution_rtgM4.csv")) = load_data(filename)
+
+
+# Distributions of RTG1 and RTG3 proteins
+rtg13_nucleus(u) = u[Rtg13I_n] + u[Rtg13A_n]
+rtg13_cytosol(u) = u[Rtg13I_c] + u[Rtg13A_c]
+rtg3_nucleus(u) = rtg13_nucleus(u) + u[Rtg3A_n] + u[Rtg3I_n]
+rtg3_cytosol(u) = rtg13_cytosol(u) + u[Rtg3A_c] + u[Rtg3I_c]
+rtg1_nucleus(u) = rtg13_nucleus(u) + u[Rtg1_n]
+rtg1_cytosol(u) = rtg13_cytosol(u) + u[Rtg1_c]
