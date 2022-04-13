@@ -209,7 +209,7 @@ function optim_params(
 
         return count / length(conds)
     end
-    res = optimize(cost, lb, ub, x0, optimsolver, optimoptions)
+    res = Optim.optimize(cost, lb, ub, x0, optimsolver, optimoptions)
     parammap = Dict(params_optim .=> Optim.minimizer(res))
 
     return (res=res, parammap=parammap)
