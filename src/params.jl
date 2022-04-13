@@ -3,7 +3,7 @@ using SciMLBase
 using SteadyStateDiffEq
 using OrdinaryDiffEq
 using ModelingToolkit
-using Optim: optimize, minimizer
+using Optim
 
 # Distributions of RTG1 and RTG3 proteins
 rtg13_nucleus(sol) = sol[Rtg13I_n] + sol[Rtg13A_n]
@@ -210,7 +210,7 @@ function optim_params(
         return count / length(conds)
     end
     res = optimize(cost, lb, ub, x0, optimsolver, optimoptions)
-    parammap = Dict(params_optim .=> minimizer(res))
+    parammap = Dict(params_optim .=> Optim.minimizer(res))
 
     return (res=res, parammap=parammap)
 end
