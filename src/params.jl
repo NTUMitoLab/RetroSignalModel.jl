@@ -146,18 +146,31 @@ function optim_params(
     @named sys = Model(ONE_SIGNAL; proteinlevels)
     prob = SteadyStateProblem(sys, resting_u0(sys))
 
-    # Mapping between model parameters and the cost function inputs
     param2idx = Dict(k => i for (i, k) in enumerate(parameters(sys)))
-    idxnS = param2idx[n_S]
     idxΣRtg1 = param2idx[ΣRtg1]
     idxΣRtg2 = param2idx[ΣRtg2]
     idxΣRtg3 = param2idx[ΣRtg3]
     idxΣMks = param2idx[ΣMks]
     idxmul_S = param2idx[mul_S]
 
-    xidx2params = [i for (k, i) in param2idx if !any(isequal(k), (ΣRtg1, ΣRtg2, ΣRtg3, ΣMks, mul_S))]
-    xidxnS = findfirst(isequal(idxnS), xidx2params)
+    params_optim = [k for k in parameters(sys) if !any(isequal(k), (ΣRtg1, ΣRtg2, ΣRtg3, ΣMks, ΣBmh, mul_S))]
 
+    # Mapping indices of x in Optim to param indices in the ODE system
+    xi2params = [param2idx[k] for k in params_optim]
+    idxnS = param2idx[n_S]
+    xidxnS = findfirst(isequal(idxnS), xi2params)
+
+    # Initial conditions and lower / upper bounds for Optim
+    x0 = similar(xi2params, Float64)
+    x0 .= xinit
+    lb = similar(x0)
+    lb .= lowerbound
+    lb[xidxnS] = hilllowerbound
+    ub = similar(x0)
+    ub .= upperbound
+    ub[xidxnS] = hillupperbound
+
+    # The cost is bounded by target protein concentration ratio
     scorecap = -log10(targetratio)
 
     # Cost function
@@ -173,8 +186,9 @@ function optim_params(
             params[idxΣMks] = ifelse(cond[:Mks] == 0, knockoutlevel, proteinlevels[ΣMks])
             params[idxmul_S] = cond[:s]
 
+            # Align parameters to the vector to be optimized
             for i in 1:length(x)
-                params[xidx2params[i]] = x[i]
+                params[xi2params[i]] = x[i]
             end
 
             # Calculate cost for this steady state solution
@@ -195,15 +209,8 @@ function optim_params(
 
         return count / length(conds)
     end
-
-    x0 = similar(xidx2params, Float64)
-    x0 .= xinit
-    lb = similar(x0)
-    lb .= lowerbound
-    lb[xidxnS] = hilllowerbound
-    ub = similar(x0)
-    ub .= upperbound
-    ub[xidxnS] = hillupperbound
-
     res = Optim.optimize(cost, lb, ub, x0, optimsolver, optimoptions)
+    parammap = Dict(params_optim .=> Optim.minimizer(res))
+
+    return (res=res, parammap=parammap)
 end
