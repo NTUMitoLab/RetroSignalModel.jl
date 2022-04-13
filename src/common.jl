@@ -4,7 +4,6 @@ using CSV
 using Tables
 
 # State variable and parameters
-
 @variables t
 @variables Rtg13A_c(t) Rtg13I_c(t) Rtg13A_n(t) Rtg13I_n(t) Rtg3I_c(t) Rtg3A_c(t) Rtg3A_n(t) Rtg3I_n(t) Rtg1_c(t) Rtg1_n(t)
 @variables s(t) Rtg2I_c(t) Rtg2A_c(t)
@@ -19,7 +18,7 @@ using Tables
 
 # Utility functions
 
-"""Loads a CSV file and returns a RowTable."""
+"""Loads a CSV file and returns a RowTable (An tuple of NamedTuple for each row)"""
 load_data(filename) = Tables.rowtable(dropmissing(CSV.read(filename, DataFrame), disallowmissing=true))
 
 """Load boolean conditions for model validation."""
