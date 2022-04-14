@@ -1,6 +1,7 @@
 module RetroSignalModel
 
-export RtgMTK, scan_params, load_conditions, load_parameters, optim_params
+export RtgMTK, scan_params, load_conditions, load_parameters
+export optim_params, find_steady_states
 
 include("common.jl")
 include("models.jl")

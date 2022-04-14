@@ -12,3 +12,7 @@ end
 @testset "Parameter searching" begin
     include("params.jl")
 end
+
+@testset "Steady state searching" begin
+    include("steadystates.jl")
+end
