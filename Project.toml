@@ -4,7 +4,7 @@ authors = [
   "stevengogogo <stevengogogo4321@gmail.com>",
   "Wen-Wei Tseng <sosiristseng@gmail.com> and contributors",
 ]
-version = "0.5.0"
+version = "0.6.0"
 
 [deps]
   CSV               = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
@@ -20,10 +20,10 @@ version = "0.5.0"
 [compat]
   CSV               = "0.10"
   DataFrames        = "1.3"
-  DiffEqBase        = "6.82"
-  ModelingToolkit   = "8.6"
+  DiffEqBase        = "6.82, 6.83"
+  ModelingToolkit   = "8.6, 8.7"
   Optim             = "1"
-  OrdinaryDiffEq    = "6.8"
+  OrdinaryDiffEq    = "6.8, 6.9"
   SciMLBase         = "1.29"
   SteadyStateDiffEq = "1.6"
   Tables            = "1.7"

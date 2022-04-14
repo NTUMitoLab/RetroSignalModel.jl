@@ -4,7 +4,6 @@ using CSV
 using Tables
 
 # State variable and parameters
-
 @variables t
 @variables Rtg13A_c(t) Rtg13I_c(t) Rtg13A_n(t) Rtg13I_n(t) Rtg3I_c(t) Rtg3A_c(t) Rtg3A_n(t) Rtg3I_n(t) Rtg1_c(t) Rtg1_n(t)
 @variables s(t) Rtg2I_c(t) Rtg2A_c(t)
@@ -19,7 +18,7 @@ using Tables
 
 # Utility functions
 
-"""Loads a CSV file and returns a RowTable."""
+"""Loads a CSV file and returns a RowTable (An tuple of NamedTuple for each row)"""
 load_data(filename) = Tables.rowtable(dropmissing(CSV.read(filename, DataFrame), disallowmissing=true))
 
 """Load boolean conditions for model validation."""
@@ -27,3 +26,12 @@ load_conditions(filename=joinpath(@__DIR__, "data", "boolean_table_RTG13.csv")) 
 
 """Load model parameters"""
 load_parameters(filename=joinpath(@__DIR__, "data", "solution_rtgM4.csv")) = load_data(filename)
+
+
+# Distributions of RTG1 and RTG3 proteins
+rtg13_nucleus(u) = u[Rtg13I_n] + u[Rtg13A_n]
+rtg13_cytosol(u) = u[Rtg13I_c] + u[Rtg13A_c]
+rtg3_nucleus(u) = rtg13_nucleus(u) + u[Rtg3A_n] + u[Rtg3I_n]
+rtg3_cytosol(u) = rtg13_cytosol(u) + u[Rtg3A_c] + u[Rtg3I_c]
+rtg1_nucleus(u) = rtg13_nucleus(u) + u[Rtg1_n]
+rtg1_cytosol(u) = rtg13_cytosol(u) + u[Rtg1_c]
