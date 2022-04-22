@@ -59,7 +59,7 @@ function optim_params(
             params[iΣMks] = cond[:Mks] == 0 ? knockoutlevel : proteinlevels[ΣMks]
             params[imul_S] = cond[:s]
 
-            # Align vector to be optimized to ODE parameters
+            # Assign optim vector to ODE parameters
             for i in 1:length(x)
                 params[xi2params[i]] = x[i]
             end
