@@ -24,18 +24,20 @@ function optim_params(
     targetratio=10)
 
     # Boolean conditions
-    conds = load_conditions(datafile)
+    conds = load_data(datafile)
 
     @named sys = Model(ONE_SIGNAL; proteinlevels)
     prob = SteadyStateProblem(sys, resting_u0(sys))
 
+    # Indices to parameters in the system
     param2idx = Dict(k => i for (i, k) in enumerate(parameters(sys)))
-    idxΣRtg1 = param2idx[ΣRtg1]
-    idxΣRtg2 = param2idx[ΣRtg2]
-    idxΣRtg3 = param2idx[ΣRtg3]
-    idxΣMks = param2idx[ΣMks]
-    idxmul_S = param2idx[mul_S]
+    iΣRtg1 = param2idx[ΣRtg1]
+    iΣRtg2 = param2idx[ΣRtg2]
+    iΣRtg3 = param2idx[ΣRtg3]
+    iΣMks = param2idx[ΣMks]
+    imul_S = param2idx[mul_S]
 
+    # Parameters to be optimized
     params_optim = [k for k in parameters(sys) if !any(isequal(k), (ΣRtg1, ΣRtg2, ΣRtg3, ΣMks, ΣBmh, mul_S))]
 
     # Mapping indices of x in Optim to param indices in the ODE system
@@ -63,11 +65,11 @@ function optim_params(
             params = copy(prob.p)
 
             # Adjust params according to conditions
-            params[idxΣRtg1] = ifelse(cond[:Rtg1] == 0, knockoutlevel, proteinlevels[ΣRtg1])
-            params[idxΣRtg2] = ifelse(cond[:Rtg2] == 0, knockoutlevel, proteinlevels[ΣRtg2])
-            params[idxΣRtg3] = ifelse(cond[:Rtg3] == 0, knockoutlevel, proteinlevels[ΣRtg3])
-            params[idxΣMks] = ifelse(cond[:Mks] == 0, knockoutlevel, proteinlevels[ΣMks])
-            params[idxmul_S] = cond[:s]
+            params[iΣRtg1] = ifelse(cond[:Rtg1] == 0, knockoutlevel, proteinlevels[ΣRtg1])
+            params[iΣRtg2] = ifelse(cond[:Rtg2] == 0, knockoutlevel, proteinlevels[ΣRtg2])
+            params[iΣRtg3] = ifelse(cond[:Rtg3] == 0, knockoutlevel, proteinlevels[ΣRtg3])
+            params[iΣMks] = ifelse(cond[:Mks] == 0, knockoutlevel, proteinlevels[ΣMks])
+            params[imul_S] = cond[:s]
 
             # Align parameters to the vector to be optimized
             for i in 1:length(x)
