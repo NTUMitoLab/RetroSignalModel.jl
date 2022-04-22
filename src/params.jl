@@ -16,7 +16,7 @@ function optim_params(
     steadyStateSolver=DynamicSS(Rodas5()),
     lowerbound=1e-3,
     upperbound=1e3,
-    hilllowerbound=1.0,
+    hilllowerbound=2.0,
     hillupperbound=7.0,
     xinit=1.0,
     optimsolver=Optim.SAMIN(),
@@ -40,20 +40,9 @@ function optim_params(
     # Parameters to be optimized
     params_optim = [k for k in parameters(sys) if !any(isequal(k), (ΣRtg1, ΣRtg2, ΣRtg3, ΣMks, ΣBmh, mul_S))]
 
-    # Mapping indices of x in Optim to param indices in the ODE system
+    # Mapping indices of the x vector in Optim to params in the system
     xi2params = [param2idx[k] for k in params_optim]
-    idxnS = param2idx[n_S]
-    xidxnS = findfirst(isequal(idxnS), xi2params)
-
-    # Initial conditions and lower / upper bounds for Optim
-    x0 = similar(xi2params, Float64)
-    x0 .= xinit
-    lb = similar(x0)
-    lb .= lowerbound
-    lb[xidxnS] = hilllowerbound
-    ub = similar(x0)
-    ub .= upperbound
-    ub[xidxnS] = hillupperbound
+    xidxnS = findfirst(isequal(n_S), params_optim)
 
     # The cost is bounded by target protein concentration ratio
     scorecap = -log10(targetratio)
@@ -63,15 +52,14 @@ function optim_params(
         count = 0.0
         for cond in conds
             params = copy(prob.p)
-
             # Adjust params according to conditions
-            params[iΣRtg1] = ifelse(cond[:Rtg1] == 0, knockoutlevel, proteinlevels[ΣRtg1])
-            params[iΣRtg2] = ifelse(cond[:Rtg2] == 0, knockoutlevel, proteinlevels[ΣRtg2])
-            params[iΣRtg3] = ifelse(cond[:Rtg3] == 0, knockoutlevel, proteinlevels[ΣRtg3])
-            params[iΣMks] = ifelse(cond[:Mks] == 0, knockoutlevel, proteinlevels[ΣMks])
+            params[iΣRtg1] = cond[:Rtg1] == 0 ? knockoutlevel : proteinlevels[ΣRtg1]
+            params[iΣRtg2] = cond[:Rtg2] == 0 ? knockoutlevel : proteinlevels[ΣRtg2]
+            params[iΣRtg3] = cond[:Rtg3] == 0 ? knockoutlevel : proteinlevels[ΣRtg3]
+            params[iΣMks] = cond[:Mks] == 0 ? knockoutlevel : proteinlevels[ΣMks]
             params[imul_S] = cond[:s]
 
-            # Align parameters to the vector to be optimized
+            # Align vector to be optimized to ODE parameters
             for i in 1:length(x)
                 params[xi2params[i]] = x[i]
             end
@@ -94,6 +82,18 @@ function optim_params(
 
         return count / length(conds)
     end
+
+    # Initial conditions and lower / upper bounds for Optim
+    x0 = similar(xi2params, Float64)
+    x0 .= xinit
+    lb = similar(x0)
+    lb .= lowerbound
+    ub = similar(x0)
+    ub .= upperbound
+    ub[xidxnS] = hillupperbound
+    lb[xidxnS] = hilllowerbound
+    x0 .= clamp.(x0, lb, ub)
+
     res = Optim.optimize(cost, lb, ub, x0, optimsolver, optimoptions)
     parammap = Dict(params_optim .=> Optim.minimizer(res))
 
