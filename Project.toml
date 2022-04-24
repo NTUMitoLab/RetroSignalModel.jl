@@ -4,7 +4,7 @@ authors = [
   "stevengogogo <stevengogogo4321@gmail.com>",
   "Wen-Wei Tseng <sosiristseng@gmail.com> and contributors",
 ]
-version = "0.7.1"
+version = "0.7.2"
 
 [deps]
   CSV               = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
@@ -16,6 +16,7 @@ version = "0.7.1"
   SciMLBase         = "0bca4576-84f4-4d90-8ffe-ffa030f20462"
   SteadyStateDiffEq = "9672c7b4-1e72-59bd-8a11-6ac3964bc41f"
   Tables            = "bd369af6-aec1-5ad0-b16a-f7cc5008161c"
+  ThreadsX          = "ac1d9e8a-700a-412c-b207-f0111f4b6c0d"
 
 [compat]
   CSV               = "0.10"

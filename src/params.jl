@@ -4,6 +4,7 @@ using SteadyStateDiffEq
 using OrdinaryDiffEq
 using ModelingToolkit
 using Optim
+using ThreadsX
 
 """
 Find parameters that satisfy the boolean conditions in the retrograde (RTG) signalling model using Optimization methods.
@@ -98,4 +99,11 @@ function optim_params(
     parammap = Dict(params_optim .=> Optim.minimizer(res))
 
     return (res=res, parammap=parammap)
+end
+
+"""Find n parameter sets using multithreading"""
+function optim_params_threads(n::Int, Model=RtgMTK; optimoptions=Optim.Options(iterations=10^5), kwargs...)
+    ThreadsX.map(1:n) do i
+        optim_params(Model; optimoptions=optimoptions, kwargs...)
+    end
 end
