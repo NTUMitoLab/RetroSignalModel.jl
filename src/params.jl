@@ -29,6 +29,7 @@ function optim_params(
 
     @named sys = Model(ONE_SIGNAL; proteinlevels)
     prob = SteadyStateProblem(sys, resting_u0(sys))
+    params = copy(prob.p)
 
     # Indices to parameters in the system
     param2idx = Dict(k => i for (i, k) in enumerate(parameters(sys)))
@@ -52,7 +53,7 @@ function optim_params(
     function cost(x)
         count = 0.0
         for cond in conds
-            params = copy(prob.p)
+            # params = copy(prob.p)
             # Adjust params according to conditions
             params[iΣRtg1] = cond[:Rtg1] == 0 ? knockoutlevel : proteinlevels[ΣRtg1]
             params[iΣRtg2] = cond[:Rtg2] == 0 ? knockoutlevel : proteinlevels[ΣRtg2]
