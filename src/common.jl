@@ -21,10 +21,10 @@ using Tables
 load_data(filename) = Tables.rowtable(dropmissing(CSV.read(filename, DataFrame), disallowmissing=true))
 
 """Load boolean conditions for model validation."""
-load_conditions(filename=joinpath(@__DIR__, "data", "boolean_table_RTG13.csv")) = load_data(filename)
+load_conditions(filename="boolean_table_RTG13.csv") = load_data(joinpath(@__DIR__, "data", filename))
 
 """Load model parameters"""
-load_parameters(filename=joinpath(@__DIR__, "data", "solution_rtgM4.csv")) = load_data(filename)
+load_parameters(filename="solution_rtgMTK_optim.csv") = load_data(joinpath(@__DIR__, "data", filename))
 
 
 # Distributions of RTG1 and RTG3 proteins

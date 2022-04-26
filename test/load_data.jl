@@ -6,9 +6,8 @@ const condkeys = (:Rtg1, :Rtg2, :Rtg3, :Mks, :s, :gfp, :Trans2Nuc)
     @test k in keys(cond)
 end
 
-params = load_parameters()
 const paramkeys = (
-    :n_s,
+    :n_S,
     :ksV,
     :ksD,
     :k2I,
@@ -33,7 +32,16 @@ const paramkeys = (
     :k3inI,
     :k3outI)
 
-# Solutions of rtgM4 
-@testset "Name availability (Parameters): $k" for param in params, k in paramkeys
+optimparams = load_parameters("solution_rtgMTK_optim.csv")
+
+# Solutions of rtgM4
+@testset "Name availability (Optim Parameters): $k" for param in optimparams, k in paramkeys
+    @test k in keys(param)
+end
+
+randparams = load_parameters("solution_rtgM4.csv")
+
+# Solutions of rtgM4
+@testset "Name availability (Random Parameters): $k" for param in randparams, k in paramkeys
     @test k in keys(param)
 end
