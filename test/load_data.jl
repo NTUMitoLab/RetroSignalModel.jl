@@ -1,3 +1,5 @@
+import RetroSignalModel as rs
+
 conds = load_conditions()
 
 const condkeys = (:Rtg1, :Rtg2, :Rtg3, :Mks, :s, :gfp, :Trans2Nuc)
@@ -7,30 +9,30 @@ const condkeys = (:Rtg1, :Rtg2, :Rtg3, :Mks, :s, :gfp, :Trans2Nuc)
 end
 
 const paramkeys = (
-    :n_S,
-    :ksV,
-    :ksD,
-    :k2I,
-    :k2M,
-    :kn2M,
-    :kBM,
-    :knBM,
-    :k13I,
-    :k13IV,
-    :k13ID,
-    :k3A_c,
-    :k3I_c,
-    :k3I_n,
-    :k13_c,
-    :kn13_c,
-    :k13_n,
-    :kn13_n,
-    :k1in,
-    :k1out,
-    :k3inA,
-    :k3outA,
-    :k3inI,
-    :k3outI)
+    rs.n_S,
+    rs.ksV,
+    rs.ksD,
+    rs.k2I,
+    rs.k2M,
+    rs.kn2M,
+    rs.kBM,
+    rs.knBM,
+    rs.k13I,
+    rs.k13IV,
+    rs.k13ID,
+    rs.k3A_c,
+    rs.k3I_c,
+    rs.k3I_n,
+    rs.k13_c,
+    rs.kn13_c,
+    rs.k13_n,
+    rs.kn13_n,
+    rs.k1in,
+    rs.k1out,
+    rs.k3inA,
+    rs.k3outA,
+    rs.k3inI,
+    rs.k3outI)
 
 optimparams = load_parameters("solution_rtgMTK_optim.csv")
 
