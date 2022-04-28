@@ -62,35 +62,35 @@ function find_steady_states(;
 
     """Rerun when the solution is invalid (NaNs and negatives)"""
     function output_func(sol, i; negtol=-1e-6)
-        rerun = any(isnan.(sol)) || any(sol .< negtol)
-        return (max.(0, sol), rerun)
+        rerun = any(isnan.(sol.u)) || any(sol.u .< negtol)
+        clamp!(sol.u, 0.0, Inf)
+        return (sol, rerun)
     end
 
     function prob_func(prob, i, repeat)
-        # Roll an initial condition
+        # Roll a random initial condition
         remake(prob, u0=make_u0())
     end
 
     """Only save unique solutions"""
-    function reduction(u, batch, I; norm_atol=1e-4)
+    function reduction(us, batch, I; norm_atol=1e-4)
         for res in batch
             isUnique = true
-            for existing in u
-                if isapprox(existing, res, atol=norm_atol)
+            for existing in us
+                if isapprox(existing.u, res.u, atol=norm_atol)
                     isUnique = false
                     break
                 end
             end
 
             if isUnique
-                u = push!(u, res)
+                us = push!(us, res)
             end
         end
-        return (u, length(u) >= ntarget)
+        return (us, length(us) >= ntarget)
     end
 
     prob = SteadyStateProblem(sys, resting_u0(sys), params)
     ensprob = EnsembleProblem(prob; output_func, prob_func, reduction)
-    sim = solve(ensprob, solver, ensemble_method; trajectories, batch_size)
-
+    return solve(ensprob, solver, ensemble_method; trajectories, batch_size)
 end
