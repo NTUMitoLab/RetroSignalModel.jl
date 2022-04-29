@@ -51,7 +51,7 @@ function optim_params(
 
     # Cost function
     function cost(x)
-        count = 0.0
+        Σcost = 0.0
         for cond in conds
             # params = copy(prob.p)
             # Adjust params according to conditions
@@ -76,13 +76,13 @@ function optim_params(
             elseif cond[:gfp] == "rtg1"
                 score = -log10(rtg1_nucleus(sol) / rtg1_cytosol(sol)) * ifelse(cond[:Trans2Nuc] == 1, 1, -1)
             else
-                score = 0.0
+                score = 0
             end
-            score = max(score, scorecap)
-            count += score
+            score = max(score - scorecap, zero(score))
+            Σcost += score
         end
 
-        return count / length(conds)
+        return Σcost / length(conds)
     end
 
     # Initial conditions and lower / upper bounds for Optim

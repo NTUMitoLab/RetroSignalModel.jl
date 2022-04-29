@@ -4,7 +4,7 @@ authors = [
   "stevengogogo <stevengogogo4321@gmail.com>",
   "Wen-Wei Tseng <sosiristseng@gmail.com> and contributors",
 ]
-version = "0.9.1"
+version = "0.9.2"
 
 [deps]
   CSV               = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
