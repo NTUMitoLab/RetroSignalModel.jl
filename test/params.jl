@@ -1,13 +1,11 @@
-# Test scan_params
+using Optim
+using DataFrames
+
 const nruns = 10
 nthreads = Threads.nthreads()
 
-# Test optim_params
-using Optim
-res, _ = optim_params(; optimoptions=Optim.Options(iterations=nruns, show_trace=true))
-
+res, params = optim_params(; optimoptions=Optim.Options(iterations=nruns, show_trace=false))
 @test Optim.iterations(res) == nruns
 
-ensres = optim_params_threads(nthreads, optimoptions=Optim.Options(iterations=nruns))
-
-@test length(ensres) == nthreads
+df = optim_params_threads(nthreads, optimoptions=Optim.Options(iterations=nruns))
+@test df isa DataFrame
