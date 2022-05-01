@@ -6,12 +6,12 @@ using CSV
 
 versioninfo()
 
-optimoptions = Optim.Options(iterations=10^5)
+optim_params(targetratio=5)
 
-res = optim_params_threads(120)
+res = optim_params_threads(120; targetratio=5);
 
-parammaps = map(res) do x
+paramaps = map(res) do x
     Dict(Symbol(k) => v for (k, v) in x.parammap)
 end
 
-CSV.write("solution_rtgMTK_optim.csv", DataFrame(parammaps))
+CSV.write("solution_rtgMTK_optim_5x.csv", DataFrame(paramaps))
